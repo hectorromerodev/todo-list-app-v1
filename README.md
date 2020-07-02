@@ -21,4 +21,7 @@
 
 ### 🏗 How I make this project 👷‍♂️
 1. `ionic start` todo-list-app-v1 `--type=angular`
+2. `ng g service` services/task
+3. `ng g interface` interfaces/task
+4. Import `import { HttpClientModule } from '@angular/common/http';` in appModule imports.
 
