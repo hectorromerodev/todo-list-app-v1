@@ -1,7 +1,10 @@
 export interface Task {
-  userId: string;
-  id: string;
-  title: string;
   priority: string;
-  completed: boolean;
+  title: string;
+  progress: number;
+  // Just for debug I need to cleanup the code later 🔽
+  userId?: string;
+  id?: string;
+  completed?: boolean;
 }
+
