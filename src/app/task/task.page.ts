@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TaskService } from '../services/task.service';
+import { Task } from '../interfaces/task';
 
 @Component({
   selector: 'app-task',
@@ -8,9 +9,8 @@ import { TaskService } from '../services/task.service';
 })
 export class TaskPage implements OnInit {
 
+  @Input() todoTask: Task;
   @Input() color;
-  @Input() progress = 0.0;
-  @Input() title;
 
   constructor(private taskService: TaskService) { }
 

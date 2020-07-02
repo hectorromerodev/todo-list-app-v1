@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>New task</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onSave()">
+        <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Title</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating ">Relevance</ion-label>
+    <ion-select interface="popover" #select (ionChange)="relevance = select.value; changeColor()">
+      <ion-select-option value="important" >Important</ion-select-option>
+      <ion-select-option value="general">General</ion-select-option>
+      <ion-select-option value="least">Least</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-list *ngIf="taskArray.length > 0 " lines="inset">
+    <ion-item *ngFor="let item of taskArray; let index = i">
+      <ion-text slot="start" [color]="itemColor" (keyup.enter)="addTask()" >{{item.name}}</ion-text>
+      <ion-buttons slot="end">
+        <ion-icon (click)="deleteItem(index)" slot="icon-only" name="close-outline" color="danger"></ion-icon>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+  <ion-item>
+    <!-- <ion-label></ion-label> -->
+    <ion-input [(ngModel)]="task" placeholder="Add a new item"></ion-input>
+    <ion-buttons slot="end">
+      <ion-button (click)="addTask()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  
+  
+</ion-content>

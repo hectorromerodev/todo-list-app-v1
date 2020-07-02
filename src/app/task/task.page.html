@@ -1,4 +1,14 @@
-<ion-text [color]="color">
-  <h1>{{ title }}</h1>
-</ion-text>
-<ion-progress-bar class="loader" [color]="color" [value]="progress"></ion-progress-bar>
+<ion-grid>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-align-self-auto">
+      <div>
+        <ion-text [color]="color"  class="ion-text-nowrap ion-text-capitalize"> 
+          <h1>{{ todoTask.title }}</h1>
+        </ion-text>
+      </div>
+      <div>
+        <ion-progress-bar [color]="color" [value]="todoTask.progress"></ion-progress-bar>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
