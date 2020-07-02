@@ -10,10 +10,10 @@
 4. Mark as donde the tasks.
 5. When you create the task, you may be able to prioritize the task with a selector. (Important, general or least), and the todo list will be sorted by priority.
 
-## 🎉 OFFLINE BONUS FEATURES 🎉
+## 🎉 Offline features will be added 🎉
 1. Progess bar or spinner to show the progress of the task.
 
-## 🚧 ONLINE FEATURES COMING SOON... 🚧 
+## 🚧 Online features coming soon 🚧 
 1. Login interface with firebase authentication, hosting and server.
 2. Save the data through devices.
 3. feedback of the app.
