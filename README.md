@@ -26,4 +26,6 @@
 4. `ng g page` task
 6. `ng g page` task/task-list
 7. `ng g page` task/task-modal
+8. `npm i @ionic/storage capacitor-data-storage-sqlite`
+9. `ionic g service` services/storage
 5. Import `import { HttpClientModule } from '@angular/common/http';` in appModule imports.
