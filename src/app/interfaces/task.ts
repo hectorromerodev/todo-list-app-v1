@@ -1,10 +1,10 @@
+import { TaskList } from './task-list';
+
 export interface Task {
+  id: number;
   priority: string;
   title: string;
   progress: number;
-  // Just for debug I need to cleanup the code later 🔽
-  userId?: string;
-  id?: string;
-  completed?: boolean;
+  taskItems?: TaskList[];
 }
 
