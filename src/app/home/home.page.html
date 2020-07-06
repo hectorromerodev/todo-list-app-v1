@@ -1,81 +1,134 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Task
+      Task List
     </ion-title>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-icon slot="icon-only" name="add" (click)="openModal()"></ion-icon>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-card >
-    <ion-card-header  color="danger" >
-      <ion-card-title>{{ priority[0] }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content > 
-      <ion-list *ngFor="let task of importantTask;" lines="none">
-        <ion-item-sliding slot="end">
-          <ion-item >
-            <app-task [color]="'danger'"  [todoTask]="task"></app-task>
-          </ion-item>
-          <ion-item-options side="end">
-            <ion-item-option color="secondary">
-              <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
-            </ion-item-option>
-            <ion-item-option color="danger" (click)="deleteAlert()">
-              <ion-icon name="trash" slot="icon-only"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+<ion-content [fullscreen]="true" >
+  <!-- <div *ngFor="let task of allTask" [ngSwitch]="task.priority" > -->
+    <ion-virtual-scroll [items]="allTask">
+      <ion-item *virtualItem="let item;">
+        <div [ngSwitch]="item.priority">        
+          <div *ngSwitchCase="'important'">
+            <ion-item-sliding slot="end" >
+              <ion-item class="nav-item" routerLink="/home/task-list/{{item.id}}" routerDirection="forward">
+                <app-task [color]="'danger'" [todoTask]="item"></app-task>
+              </ion-item>
+              <ion-item-options side="end">
+                <ion-item-option color="secondary">
+                  <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
+                </ion-item-option>
+                <ion-item-option color="danger" (click)="deleteAlert()">
+                  <ion-icon name="trash" slot="icon-only"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </div>
+          <div *ngSwitchCase="'general'">
+            <ion-item-sliding  slot="end" >
+              <ion-item class="nav-item" routerLink="/home/task-list/{{item.id}}" routerDirection="forward" >
+                <app-task [color]="'warning'"  [todoTask]="item"></app-task>
+              </ion-item>
+              <ion-item-options side="end">
+                <ion-item-option color="secondary">
+                  <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
+                </ion-item-option>
+                <ion-item-option color="danger">
+                  <ion-icon name="trash" slot="icon-only"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </div>
+          <div *ngSwitchCase="'least'" >
+            <ion-item-sliding slot="end" >
+              <ion-item class="nav-item" routerLink="/home/task-list/{{item.id}}" routerDirection="forward">
+                <app-task [color]="'tertiary'" [todoTask]="item"></app-task>
+              </ion-item>
+              <ion-item-options side="end">
+                <ion-item-option color="secondary">
+                  <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
+                </ion-item-option>
+                <ion-item-option color="danger">
+                  <ion-icon name="trash" slot="icon-only"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </div>
+        </div>
+      </ion-item>
+    </ion-virtual-scroll>
+    <ion-grid >
+      <ion-row *ngIf="allTask.length === 0" >
+        <ion-col class="ion-padding-vertical">
+          <div class="ion-text-center">
+            <h2>You don't have any important task for today 🔥😎</h2>
+            <p>Add something to do click on ➕</p>
+          </div>
+      </ion-col>
+    </ion-row>
+    </ion-grid>
+    
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+      <ion-fab-button color="light">
+        <ion-icon name="add" (click)="openModal()"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
-  <ion-card >
-    <ion-card-header color="warning">
-      <ion-card-title  >{{ priority[1] }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content > 
-      <ion-list *ngFor="let task of generalTask;" lines="none">
-        <ion-item-sliding slot="end">
-          <ion-item >
-            <app-task [color]="'warning'"  [todoTask]="task"></app-task>
-          </ion-item>
-          <ion-item-options side="end">
-            <ion-item-option color="secondary">
-              <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
-            </ion-item-option>
-            <ion-item-option color="danger">
-              <ion-icon name="trash" slot="icon-only"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+    <!-- <ion-card *ngSwitchCase="'important'">
+      <ion-card-header  color="danger" >
+        <ion-card-title>{{ priority[0] }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content > 
+        <ion-row *ngSwitchCase="'important'" >
+          <ion-col *ngIf="task[0]">
+            <div class="ion-text-center">
+              <h1>You don't have any important task for today 😍</h1>
+              <p>Add something to do above click on ➕</p>
+            </div>
+          </ion-col>
+        </ion-row>
+        
+      </ion-card-content>
+    </ion-card> -->
 
-  <ion-card >
-    <ion-card-header color="tertiary" >
-      <ion-card-title  >{{ priority[2] }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content > 
-      <ion-list *ngFor="let task of leastTask;" lines="none">
-        <ion-item-sliding slot="end">
-          <ion-item >
-            <app-task [color]="'tertiary'" [todoTask]="task"></app-task>
-          </ion-item>
-          <ion-item-options side="end">
-            <ion-item-option color="secondary">
-              <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
-            </ion-item-option>
-            <ion-item-option color="danger">
-              <ion-icon name="trash" slot="icon-only"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+    <!-- <ion-card *ngSwitchCase="'general'">
+      <ion-card-header color="warning">
+        <ion-card-title  >{{ priority[1] }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content > 
+        <ion-row *ngIf="generalTask.length === 0">
+          <ion-col>
+            <div class="ion-text-center">
+              <h1>Be Cool 😎</h1>
+              <p>Add something cool above click on ➕</p>
+            </div>
+          </ion-col>
+        </ion-row>
+        
+      </ion-card-content>
+    </ion-card> -->
+<!-- 
+    <ion-card *ngSwitchCase="'least'">
+      <ion-card-header color="tertiary" >
+        <ion-card-title  >{{ priority[2] }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content > 
+        <ion-row *ngIf="leastTask.length === 0">
+          <ion-col>
+            <div class="ion-text-center">
+              <h1> All you need is love 🥰</h1>
+              <p>Add love above click on ➕</p>
+            </div>
+          </ion-col>
+        </ion-row>
+        
+          
+      </ion-card-content>
+    </ion-card> -->
+  <!-- </div> -->
 </ion-content>
