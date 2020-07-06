@@ -26,10 +26,15 @@
     </ion-select>
   </ion-item>
   <ion-list *ngIf="itemArray.length > 0 " lines="inset">
-    <ion-item *ngFor="let item of itemArray; let index = i">
-      <ion-text slot="start" [color]="itemColor" (keyup.enter)="addItem()" >{{item.name}}</ion-text>
+    <ion-item *ngFor="let item of itemArray; let i = index">
+      <ion-label>
+        <ion-text slot="start" [color]="itemColor" (keyup.enter)="addItem()">{{item.name}}</ion-text>
+      </ion-label>
+      
       <ion-buttons slot="end">
-        <ion-icon (click)="deleteItem(item)" slot="icon-only" name="close-outline" color="danger"></ion-icon>
+        <ion-button fill="clear" (click)="deleteItem(i)">
+          <ion-icon slot="icon-only" name="trash-outline" [color]="itemColor"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ion-item>
   </ion-list>

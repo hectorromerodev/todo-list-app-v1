@@ -91,9 +91,9 @@ export class TaskModalPage implements OnInit {
     this.modalCtrl.dismiss(); // Dismiss the modal
   }
 
-  async deleteItem(element: any) {
+  async deleteItem(index: any) {
     // Delete the array element
-    await this.itemArray.splice(element, 1);
+    await this.itemArray.splice(index, 1);
   }
 
   async saveToStorage(id: number, data: Task) {
