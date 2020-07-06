@@ -4,11 +4,11 @@
 
 ## 🏁 With this app you will
 
-1. Create many tasks you want.
+1. Create many tasks you want. ✅
 2. Update the tasks.
 3. Delete a task.
-4. Mark as donde the tasks.
-5. When you create the task, you may be able to prioritize the task with a selector. (Important, general or least), and the todo list will be sorted by priority.
+4. Mark as donde the tasks. 
+5. When you create the task, you may be able to prioritize the task with a selector. (Important, general or least), and the todo list will be sorted by priority. ✅
 
 ## 🎉 Offline features will be added
 1. Progess bar or spinner to show the progress of the task.
