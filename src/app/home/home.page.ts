@@ -14,7 +14,7 @@ import { flatten } from '@angular/compiler';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  allTask: Task[] = [];
+  allTask: Task[] = [{} as Task];
 
   priority = ['Important', 'General', 'Least'];
   constructor(
@@ -50,7 +50,7 @@ export class HomePage implements OnInit {
     }
   }
 
-  async deleteAlert() {
+  async deleteAlert(id) {
     const alert = await this.alertCtrl.create({
       header: 'Delete this task?',
       message: 'Are you sure to do this?',
@@ -59,13 +59,13 @@ export class HomePage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('confirm Cancel');
+            return;
           }
         },
         {
           text: 'Delete',
-          handler: () => {
-            console.log('Confirm Ok');
+          handler: async () => {
+            await this.storage.removeItem(id.toString());
           }
         }
       ]
