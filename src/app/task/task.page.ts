@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { Task } from '../interfaces/task';
+import { StorageAPIWrapperService } from '../services/storage-api-wrapper.service';
 
 @Component({
   selector: 'app-task',
@@ -12,23 +13,9 @@ export class TaskPage implements OnInit {
   @Input() todoTask: Task;
   @Input() color;
 
-  constructor(private taskService: TaskService) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  getAllTask() {
-    this.taskService.getAll()
-      .subscribe(all => {
-        console.log(all);
-      });
-  }
-
-  getOneTask(id: number) {
-    this.taskService.getOne(id)
-      .subscribe(one => {
-        console.log(one);
-      });
   }
 
   createTask() {

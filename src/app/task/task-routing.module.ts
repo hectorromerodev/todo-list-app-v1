@@ -9,12 +9,12 @@ const routes: Routes = [
     component: TaskPage
   },
   {
-    path: 'task-list',
-    loadChildren: () => import('./task-list/task-list.module').then( m => m.TaskListPageModule)
+    path: 'task-list/:id',
+    loadChildren: () => import('./task-list/task-list.module').then(m => m.TaskListPageModule)
   },
   {
     path: 'task-modal',
-    loadChildren: () => import('./task-modal/task-modal.module').then( m => m.TaskModalPageModule)
+    loadChildren: () => import('./task-modal/task-modal.module').then(m => m.TaskModalPageModule)
   }
 ];
 
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TaskPageRoutingModule {}
+export class TaskPageRoutingModule { }

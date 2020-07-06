@@ -3,6 +3,10 @@ import { Task } from '../interfaces/task';
 import { TaskService } from '../services/task.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TaskModalPage } from '../task/task-modal/task-modal.page';
+import { StorageAPIWrapperService } from '../services/storage-api-wrapper.service';
+import { BehaviorSubject, Observable, pipe, combineLatest, of, concat, Subject } from 'rxjs';
+import { startWith, scan, map } from 'rxjs/Operators';
+import { flatten } from '@angular/compiler';
 
 @Component({
   selector: 'app-home',
@@ -10,36 +14,40 @@ import { TaskModalPage } from '../task/task-modal/task-modal.page';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  importantTask: Task[] = [
-    { title: 'Love my girl', priority: 'important', progress: 0.99 },
-    { title: 'Develop a todo app', priority: 'important', progress: 0.25 },
-    { title: 'Read a book', priority: 'least', progress: 0.89 },
-  ];
-  generalTask: Task[] = [
-    { title: 'Wash the dishes', priority: 'general', progress: 0.20 },
-  ];
-  leastTask: Task[] = [
-    { title: 'Eat an apple', priority: 'least', progress: 0.5 },
-    { title: 'Learn Arduino', priority: 'least', progress: 0.0 },
-  ];
+  allTask: Task[] = [];
 
   priority = ['Important', 'General', 'Least'];
-  title = ['Amar a Michelle', 'Work with TODO app', 'Do homework'];
   constructor(
-    private taskService: TaskService,
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
-
+    private storage: StorageAPIWrapperService
   ) { }
 
   ngOnInit() {
-    this.get();
-  }
-  async get() {
-    await this.taskService.getAll()
-      .subscribe(all => {
-        this.importantTask = all.slice(0, 10);
+    this.storage.refreshNeeded$
+      .subscribe(() => {
+        this.getTasks();
       });
+    this.getTasks();
+
+  }
+
+  async getTasks() {
+    // 1️⃣ create or open a database and table
+    const result: boolean = await this.storage
+      .openStore({ database: 'TaskDB', table: 'tasks' });
+    // 2️⃣ Verify conection If true we can use sqlite db
+    if (result) {
+      // 3️⃣ get data and order the data
+      this.allTask = (await this.storage.getAllItems())
+        .sort((a, b) => // Order the data to be 'important' first then order alphabeticaly
+          ('important' === b.priority ? // If important order first
+            1 : 'important' === a.priority ?
+              -1 : 'general' === b.priority ? // Then If general order before
+                1 : -1)); // Then the least values
+    } else {
+      return [];
+    }
   }
 
   async deleteAlert() {
@@ -68,9 +76,7 @@ export class HomePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: TaskModalPage,
       keyboardClose: true,
-
     });
-
     return await modal.present();
   }
 }

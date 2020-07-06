@@ -1,6 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { TaskList } from 'src/app/interfaces/task-list';
+import { Task } from 'src/app/interfaces/task';
+import { StorageAPIWrapperService } from 'src/app/services/storage-api-wrapper.service';
+
 
 @Component({
   selector: 'app-task-modal',
@@ -8,15 +11,20 @@ import { TaskList } from 'src/app/interfaces/task-list';
   styleUrls: ['./task-modal.page.scss'],
 })
 export class TaskModalPage implements OnInit {
+  newTask: Task = null;
+  @Output() save: EventEmitter<Task> = new EventEmitter();
 
+  @Input() title: string;
   @Input() relevance = 'least';
-  @Input() task: string = null;
-  @Input() taskArray: TaskList[] = [];
+  @Input() itemArray: TaskList[] = [];
+
+  @Input() item: string = null;
   @Input() itemColor;
 
   constructor(
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
+    private storage: StorageAPIWrapperService
 
   ) { }
 
@@ -32,14 +40,25 @@ export class TaskModalPage implements OnInit {
       duration: 1000 // This time its just for visual <We can remove 🔥 it>
     }).then(async loadingEl => {
       await loadingEl.present();
-      // Here i need to save the information 🚧👷‍♂️
+      const id = Date.now();
 
+      this.newTask = {
+        id,
+        title: this.title,
+        priority: this.relevance,
+        progress: 0,
+        taskItems: this.itemArray
+      };
+      await this.save.emit(this.newTask);
+      await this.saveToStorage(id, this.newTask);
+      this.modalCtrl.dismiss();
+      // Here i need to save the information 🚧👷‍♂️
     });
 
     console.log('saved');
   }
 
-  async changeColor() {
+  changeColor() {
     // Change color items depending of the relevance
     switch (this.relevance) {
       case 'important':
@@ -54,24 +73,39 @@ export class TaskModalPage implements OnInit {
     }
   }
 
-  async addTask() {
+  async addItem() {
     this.changeColor();
     // Convert to an array
-    const todo: TaskList = {
-      name: this.task,
+    const todo = {
+      name: this.item,
       completed: false
     };
-    await this.taskArray.push(todo); // Push new items
-    this.task = null; // Clean the  task add input
+    // Validate if the addTask input isnt null
+    if (this.item !== null) {
+      await this.itemArray.push(todo); // Push new items
+      this.item = null; // Clean the  task add input
+    }
   }
 
   dismiss() {
     this.modalCtrl.dismiss(); // Dismiss the modal
   }
 
-  async deleteItem(element: number) {
+  async deleteItem(element: any) {
     // Delete the array element
-    await this.taskArray.splice(element, 1);
+    await this.itemArray.splice(element, 1);
   }
 
+  async saveToStorage(id: number, data: Task) {
+    // Conect to a database table
+    let result: boolean = await this.storage.openStore({});
+
+    // Verify conection If true we can use sqlite db
+    if (result) {
+      // 1️⃣ create or open a database and table
+      result = await this.storage.openStore({ database: 'TaskDB', table: 'tasks' });
+      // 2️⃣ Save the item on the storage opened
+      await this.storage.setItem(JSON.stringify(id), JSON.stringify(data));
+    }
+  }
 }
