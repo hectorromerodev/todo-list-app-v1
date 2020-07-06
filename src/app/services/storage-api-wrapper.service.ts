@@ -57,11 +57,19 @@ export class StorageAPIWrapperService {
   }
   public async getItem(key: string): Promise<string> {
     const { value } = await this.storage.get({ key });
-    return value;
+    if (!value) {
+      return;
+    } else {
+      return value;
+    }
   }
   public async getAllKeys(): Promise<Array<string>> {
     const { keys } = await this.storage.keys();
-    return keys;
+    if (!keys) {
+      return;
+    } else {
+      return keys;
+    }
   }
 
   public async updateItem(item: any, changes: any, id?: string | number,) {
@@ -71,10 +79,12 @@ export class StorageAPIWrapperService {
 
   public async removeItem(key: string): Promise<void> {
     await this.storage.remove({ key });
+    this._refreshNeeded$.next();
     return;
   }
   public async clear(): Promise<void> {
     await this.storage.clear();
+    this._refreshNeeded$.next();
     return;
   }
   public async deleteStore(options: any): Promise<boolean> {
