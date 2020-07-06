@@ -1,9 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>task-list</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ task.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor="let entry of task.taskItems">
+      <ion-label>{{entry.name}}</ion-label>
+      <ion-checkbox [color]="color" slot="start" [(ngModel)]="entry.completed"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+       <ion-input [(ngModel)]="item" placeholder="Add a new item"></ion-input>
+    <ion-buttons slot="end">
+      <ion-button >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    </ion-item>
+   
+  </ion-list>
 </ion-content>
