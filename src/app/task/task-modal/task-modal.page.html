@@ -18,7 +18,7 @@
     <ion-input [(ngModel)]="title"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating ">Relevance</ion-label>
+    <ion-label position="floating ">Priority</ion-label>
     <ion-select interface="popover" #select (ionChange)="relevance = select.value; changeColor()">
       <ion-select-option value="important" >Important</ion-select-option>
       <ion-select-option value="general">General</ion-select-option>
