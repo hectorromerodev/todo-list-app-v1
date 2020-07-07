@@ -125,7 +125,7 @@ export class TaskListPage implements OnInit, ViewDidEnter {
         completed++;
       }
     }
-    return completed / taskItems;
+    return (completed / taskItems) * 100;
   }
 
   // Helper
