@@ -25,3 +25,8 @@
 3. `ng g interface` interfaces/task
 4. Import `import { HttpClientModule } from '@angular/common/http';` in appModule imports.
 
+
+ionic capacitor add android
+ionic capacitor copy android
+ionic capacitor run android -l
+

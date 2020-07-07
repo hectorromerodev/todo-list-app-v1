@@ -15,6 +15,9 @@ import { flatten } from '@angular/compiler';
 })
 export class HomePage implements OnInit {
   allTask: Task[] = [{} as Task];
+  important: boolean;
+  general: boolean;
+  least: boolean;
 
   priority = ['Important', 'General', 'Least'];
   constructor(
@@ -33,6 +36,9 @@ export class HomePage implements OnInit {
   }
 
   async getTasks() {
+    this.important = false;
+    this.general = false;
+    this.least = false;
     // 1️⃣ create or open a database and table
     const result: boolean = await this.storage
       .openStore({ database: 'TaskDB', table: 'tasks' });
@@ -45,6 +51,19 @@ export class HomePage implements OnInit {
             1 : 'important' === a.priority ?
               -1 : 'general' === b.priority ? // Then If general order before
                 1 : -1)); // Then the least values
+      for (const item of this.allTask) {
+        switch (item.priority) {
+          case 'important':
+            this.important = true;
+            break;
+          case 'general':
+            this.general = true;
+            break;
+          case 'least':
+            this.least = true;
+            break;
+        }
+      }
     } else {
       return [];
     }

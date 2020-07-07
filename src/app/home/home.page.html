@@ -1,66 +1,157 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Task List
+      Activity List 
     </ion-title>
-    <!-- <ion-buttons slot="end">
-      <ion-icon slot="icon-only" name="add" (click)="openModal()"></ion-icon>
-    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" >
-  <!-- <div *ngFor="let task of allTask" [ngSwitch]="task.priority" > -->
-    <ion-virtual-scroll [items]="allTask">
-      <ion-item *virtualItem="let item; let i = index">
-        <div [ngSwitch]="item.priority">        
-          <div *ngSwitchCase="'important'">
-            <ion-item-sliding slot="end" >
-              <ion-item class="nav-item" routerLink="/home/task-list/{{item.id}}" routerDirection="forward">
-                <app-task [color]="'danger'" [todoTask]="item"></app-task>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option color="secondary">
-                  <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
-                </ion-item-option>
-                <ion-item-option color="danger" (click)="deleteAlert(item.id)">
-                  <ion-icon name="trash" slot="icon-only"></ion-icon>
-                </ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
-          </div>
-          <div *ngSwitchCase="'general'">
-            <ion-item-sliding  slot="end" >
-              <ion-item class="nav-item" routerLink="/home/task-list/{{item.id}}" routerDirection="forward" >
-                <app-task [color]="'warning'"  [todoTask]="item"></app-task>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option color="secondary">
-                  <ion-icon name="create-sharp" slot="icon-only"></ion-icon>
-                </ion-item-option>
-                <ion-item-option color="danger">
-                  <ion-icon name="trash" slot="icon-only"></ion-icon>
-                </ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
-          </div>
-          <div *ngSwitchCase="'least'" >
-            <ion-item-sliding slot="end" >
-              <ion-item class="nav-item" routerLink="/home/task-list/{{item.id}}" routerDirection="forward">
-                <app-task [color]="'tertiary'" [todoTask]="item"></app-task>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option color="danger">
-                  <ion-icon name="trash" slot="icon-only"></ion-icon>
-                </ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
-          </div>
-        </div>
-      </ion-item>
-    </ion-virtual-scroll>
-    <ion-grid >
-      <ion-row *ngIf="allTask.length === 0" >
+  <ion-grid  *ngIf="important">
+    <ion-row>
+      <ion-col size-sm="8" offset-sm="2">
+        <ion-card>
+          <ion-card-header  color="danger" >
+            <ion-card-title>Important</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let item of allTask" [ngSwitch]="item.priority" >
+              <ion-item-sliding *ngSwitchCase="'important'" slot="end" lines="none">
+                <ion-item routerLink="/home/task-list/{{item.id}}" routerDirection="forward" lines="none">
+                  <circle-progress
+                    [percent]="item.progress"
+                    subtitleFontSize="8"
+                    radius="20"
+                    titleColor="#FF4961"
+                    space="0"
+                    maxPercent="100"
+                    outerStrokeGradient="false"
+                    outerStrokeWidth="1"
+                    backgroundPadding="10"
+                    outerStrokeColor=" #D32F2F"
+                    outerStrokeGradientStopColor="#FF4961"
+                    innerStrokeColor="#e7e8ea"
+                    innerStrokeWidth="1"
+                    [title]="(item.progress | number:'1.0-0' )  + '%'"
+                    titleFontSize="10"
+                    animateTitle="true"
+                    animationDuration="3000"
+                    showBackground="false"
+                    clockwise="false"
+                    responsive="false"
+                  ></circle-progress>   
+                  <app-task [color]="'danger'" [todoTask]="item"></app-task>
+                </ion-item>
+                <ion-item-options side="end">                              
+                  <ion-item-option color="danger" (click)="deleteAlert(item.id)">
+                    <ion-icon name="trash" slot="icon-only"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="general">
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header color="warning" >
+            <ion-card-title>General</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let item of allTask" [ngSwitch]="item.priority">
+              <ion-item-sliding *ngSwitchCase="'general'" slot="end" lines="none">
+                <ion-item routerLink="/home/task-list/{{item.id}}" routerDirection="forward" lines="none">
+                  <circle-progress
+                    [percent]="item.progress"
+                    subtitleFontSize="8"
+                    radius="20"
+                    titleColor="#FFD534"
+                    space="0"
+                    maxPercent="100"
+                    outerStrokeGradient="false"
+                    outerStrokeWidth="1"
+                    backgroundPadding="10"
+                    outerStrokeColor=" #ff8f00"
+                    outerStrokeGradientStopColor="#FFD534"
+                    innerStrokeColor="#e7e8ea"
+                    innerStrokeWidth="1"
+                    [title]="(item.progress | number:'1.0-0' )  + '%'"
+                    titleFontSize="10"
+                    animateTitle="true"
+                    animationDuration="3000"
+                    showBackground="false"
+                    clockwise="false"
+                    responsive="false"
+                  ></circle-progress>   
+                  <app-task [color]="'warning'" [todoTask]="item"></app-task>
+                </ion-item>  
+                <ion-item-options side="end">
+                  <ion-item-option color="warning" (click)="deleteAlert(item.id)">
+                    <ion-icon name="trash" slot="icon-only"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+    
+  <ion-grid *ngIf="least">
+    <ion-row>
+      <ion-col size-sm="8" offset-sm="2">
+        <ion-card>
+          <ion-card-header color="secondary" >
+            <ion-card-title>Least</ion-card-title>
+            </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let item of allTask" [ngSwitch]="item.priority">
+              <ion-item-sliding *ngSwitchCase="'least'" slot="end" lines="none">
+                <ion-item  routerLink="/home/task-list/{{item.id}}" routerDirection="forward" lines="none">
+                  <circle-progress
+                    [percent]="item.progress"
+                    subtitleFontSize="8"
+                    radius="20"
+                    titleColor="#50C8FF"
+                    space="0"
+                    maxPercent="100"
+                    outerStrokeGradient="false"
+                    outerStrokeWidth="1"
+                    backgroundPadding="10"
+                    outerStrokeColor="#0288d1"
+                    outerStrokeGradientStopColor="#50C8FF"
+                    innerStrokeColor="#e7e8ea"
+                    innerStrokeWidth="1"
+                    [title]="(item.progress | number:'1.0-0' )  + '%'"
+                    titleFontSize="10"
+                    animateTitle="true"
+                    animationDuration="3000"
+                    showBackground="false"
+                    clockwise="false"
+                    responsive="false"
+                  ></circle-progress>   
+                  <app-task [color]="'secondary'" [todoTask]="item"></app-task>
+                </ion-item>  
+                <ion-item-options side="end">
+                  <ion-item-option color="secondary" (click)="deleteAlert(item.id)">
+                    <ion-icon name="trash" slot="icon-only"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="allTask.length === 0" >
+      <ion-row  >
         <ion-col class="ion-padding-vertical">
           <div class="ion-text-center">
             <h2>You don't have any important task for today 🔥😎</h2>
@@ -68,64 +159,10 @@
           </div>
       </ion-col>
     </ion-row>
-    </ion-grid>
-    
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-      <ion-fab-button color="light">
-        <ion-icon name="add" (click)="openModal()"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-
-    <!-- <ion-card *ngSwitchCase="'important'">
-      <ion-card-header  color="danger" >
-        <ion-card-title>{{ priority[0] }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content > 
-        <ion-row *ngSwitchCase="'important'" >
-          <ion-col *ngIf="task[0]">
-            <div class="ion-text-center">
-              <h1>You don't have any important task for today 😍</h1>
-              <p>Add something to do above click on ➕</p>
-            </div>
-          </ion-col>
-        </ion-row>
-        
-      </ion-card-content>
-    </ion-card> -->
-
-    <!-- <ion-card *ngSwitchCase="'general'">
-      <ion-card-header color="warning">
-        <ion-card-title  >{{ priority[1] }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content > 
-        <ion-row *ngIf="generalTask.length === 0">
-          <ion-col>
-            <div class="ion-text-center">
-              <h1>Be Cool 😎</h1>
-              <p>Add something cool above click on ➕</p>
-            </div>
-          </ion-col>
-        </ion-row>
-        
-      </ion-card-content>
-    </ion-card> -->
-<!-- 
-    <ion-card *ngSwitchCase="'least'">
-      <ion-card-header color="tertiary" >
-        <ion-card-title  >{{ priority[2] }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content > 
-        <ion-row *ngIf="leastTask.length === 0">
-          <ion-col>
-            <div class="ion-text-center">
-              <h1> All you need is love 🥰</h1>
-              <p>Add love above click on ➕</p>
-            </div>
-          </ion-col>
-        </ion-row>
-        
-          
-      </ion-card-content>
-    </ion-card> -->
-  <!-- </div> -->
-</ion-content>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button color="primary">
+      <ion-icon name="add" (click)="openModal()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content> 
