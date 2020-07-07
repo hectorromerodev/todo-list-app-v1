@@ -3,20 +3,34 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ task.title }}</ion-title>
+    <ion-title>
+      <ion-label *ngIf="!editInput">{{ task.title }}</ion-label>
+      <ion-input  [(ngModel)]="task.title" *ngIf="editInput"></ion-input>
+    </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="editAndSave()">
+        <ion-icon slot="icon-only" [name]="!editInput ? 'brush-outline' : 'checkmark-sharp'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let entry of task.taskItems">
+    <ion-list-header>Things to do</ion-list-header>
+    <ion-item *ngFor="let entry of taskList; let i = index">
       <ion-label>{{entry.name}}</ion-label>
-      <ion-checkbox [color]="color" slot="start" [(ngModel)]="entry.completed"></ion-checkbox>
+      <ion-checkbox #checkVal  (click)="checkItem(i, checkVal.checked)" [color]="colorItem" [(checked)]="entry.completed" slot="start"></ion-checkbox>
+      <ion-buttons slot="end" fill="clear">
+        <ion-button  *ngIf="editInput" (click)="deleteItem(i)">
+          <ion-icon slot="icon-only" [color]="colorItem" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
     <ion-item>
-       <ion-input [(ngModel)]="item" placeholder="Add a new item"></ion-input>
+       <ion-input [(ngModel)]="itemInput" placeholder="Add a new item"></ion-input>
     <ion-buttons slot="end">
-      <ion-button >
+      <ion-button (click)="addItem()" >
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
