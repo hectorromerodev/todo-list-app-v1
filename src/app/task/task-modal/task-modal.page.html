@@ -4,49 +4,64 @@
       <ion-back-button defaultHref="/" (click)="dismiss()"></ion-back-button>
     </ion-buttons>
     <ion-title>New task</ion-title>
-    <ion-buttons slot="primary">
-      <ion-button (click)="onSave()">
-        <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
  
 <ion-content>
-  <ion-item>
-    <ion-label position="floating">Title</ion-label>
-    <ion-input [(ngModel)]="title"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="start">Priority</ion-label>
-    <ion-select interface="popover" #select (ionChange)="priority = select.value; changeColor()" value="important">
-      <ion-select-option value="important" >Important</ion-select-option>
-      <ion-select-option value="general">General</ion-select-option>
-      <ion-select-option value="least" >Least</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-list *ngIf="itemArray.length > 0 " lines="inset">
-    <ion-item *ngFor="let item of itemArray; let i = index">
-      <ion-label>
-        <ion-text slot="start" [color]="itemColor" (keyup.enter)="addItem()">{{item.name}}</ion-text>
-      </ion-label>
-      
-      <ion-buttons slot="end">
-        <ion-button fill="clear" (click)="deleteItem(i)">
-          <ion-icon slot="icon-only" name="trash-outline" [color]="itemColor"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
-  <ion-item>
-    <!-- <ion-label></ion-label> -->
-    <ion-input [(ngModel)]="item" placeholder="Add a new item"></ion-input>
-    <ion-buttons slot="end">
-      <ion-button (click)="addItem()">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-item>
-  
-  
+  <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
+    <ion-button color="dark" (click)="onSave()" shape="round" [disabled]="!title">
+      <ion-icon name="save"></ion-icon>
+      Save
+    </ion-button>
+  </ion-fab>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Title</ion-label>
+          <ion-input [(ngModel)]="title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="start">Priority</ion-label>
+          <ion-select interface="popover" #select (ionChange)="priority = select.value; changeColor()" value="important">
+            <ion-select-option value="important" >Important</ion-select-option>
+            <ion-select-option value="general">General</ion-select-option>
+            <ion-select-option value="least" >Least</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-center" >
+      <ion-col size-sm="8" offset-sm="2">
+        <ion-row>
+          <ion-col size="10" class="ion-no-padding ion-no-margin">
+            <ion-item>
+              <ion-input [(ngModel)]="item" placeholder="Add a new thing to do"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="2" class="ion-no-padding;">
+            <ion-button expand="full" (click)="addItem()" color="ligth" >ADD
+            </ion-button>
+          </ion-col>
+        </ion-row>  
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list *ngIf="itemArray.length > 0 " lines="inset">
+          <ion-list-header>Things to do</ion-list-header>
+          <ion-item *ngFor="let item of itemArray; let i = index">
+            <ion-label>
+              <ion-text slot="start" [color]="itemColor" (keyup.enter)="addItem()">{{item.name}}</ion-text>
+            </ion-label>
+            <ion-buttons slot="end">
+              <ion-button fill="clear" (click)="deleteItem(i)">
+                <ion-icon slot="icon-only" name="trash-outline" [color]="itemColor"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

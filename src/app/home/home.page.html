@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Activity List 
+      Ativity List App
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,13 +11,13 @@
     <ion-row>
       <ion-col size-sm="8" offset-sm="2">
         <ion-card>
-          <ion-card-header  color="danger" >
+          <ion-card-header color="danger" >
             <ion-card-title>Important</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <div *ngFor="let item of allTask" [ngSwitch]="item.priority" >
               <ion-item-sliding *ngSwitchCase="'important'" slot="end" lines="none">
-                <ion-item routerLink="/home/task-list/{{item.id}}" routerDirection="forward" lines="none">
+                <ion-item routerLink="/home/task-list/{{item.id}}"  routerDirection="forward" lines="none">
                   <circle-progress
                     [percent]="item.progress"
                     subtitleFontSize="8"
@@ -57,7 +57,7 @@
 
   <ion-grid *ngIf="general">
     <ion-row>
-      <ion-col size="12">
+      <ion-col size-sm="8" offset-sm="2">
         <ion-card>
           <ion-card-header color="warning" >
             <ion-card-title>General</ion-card-title>
@@ -151,7 +151,7 @@
     </ion-row>
   </ion-grid>
   <ion-grid *ngIf="allTask.length === 0" >
-      <ion-row  >
+      <ion-row class="ion-justify-content-center">
         <ion-col class="ion-padding-vertical">
           <div class="ion-text-center">
             <h2>You don't have any important task for today 🔥😎</h2>
@@ -160,9 +160,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-    <ion-fab-button color="primary" (click)="openModal()">
-      <ion-icon name="add" ></ion-icon>
+  <ion-fab  vertical="top" horizontal="end" slot="fixed" edge>
+     <ion-fab-button color="dark" (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content> 

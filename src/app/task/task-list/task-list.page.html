@@ -4,37 +4,52 @@
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      <ion-label *ngIf="!editInput">{{ task.title }}</ion-label>
-      <ion-input  [(ngModel)]="task.title" *ngIf="editInput"></ion-input>
+      <ion-label [color]="colorItem" *ngIf="!editInput">{{ task.title }}</ion-label>
+      <ion-item *ngIf="editInput">
+        <ion-input [color]="colorItem" placeholder="Enter a title" [(ngModel)]="task.title" ></ion-input>
+      </ion-item>
     </ion-title>
-    <ion-buttons slot="primary">
-      <ion-button (click)="editAndSave()">
-        <ion-icon slot="icon-only" [name]="!editInput ? 'brush-outline' : 'checkmark-sharp'"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>Things to do</ion-list-header>
-    <ion-item *ngFor="let entry of taskList; let i = index">
-      <ion-label>{{entry.name}}</ion-label>
-      <ion-checkbox #checkVal  (click)="checkItem(i, checkVal.checked)" [color]="colorItem" [(checked)]="entry.completed" slot="start"></ion-checkbox>
-      <ion-buttons slot="end" fill="clear">
-        <ion-button  *ngIf="editInput" (click)="deleteItem(i)">
-          <ion-icon slot="icon-only" [color]="colorItem" name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-    <ion-item>
-       <ion-input [(ngModel)]="itemInput" placeholder="Add a new item"></ion-input>
-    <ion-buttons slot="end">
-      <ion-button (click)="addItem()" >
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    </ion-item>
-   
-  </ion-list>
+  <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
+    <ion-button color="dark" (click)="editAndSave()" shape="round" >
+        <ion-icon [name]="!editInput ? 'create' : 'save'"></ion-icon>
+        {{ !editInput ? ' Edit' : ' Save'}}
+    </ion-button>
+  </ion-fab>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="8" offset-sm="2">
+        <ion-list-header>Things to do</ion-list-header>
+        <ion-item *ngFor="let entry of taskList; let i = index">
+          <ion-label>{{entry.name}}</ion-label>
+          <ion-checkbox #checkVal  (click)="checkItem(i, checkVal.checked)" [color]="colorItem" [(checked)]="entry.completed" slot="start"></ion-checkbox>
+          <ion-buttons slot="end" fill="clear">
+            <ion-button  *ngIf="editInput" (click)="deleteItem(i)">
+              <ion-icon slot="icon-only" [color]="colorItem" name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row class="ion-align-items-center" >
+      <ion-col size-sm="8" offset-sm="2">
+        <ion-row>
+          <ion-col size="10" class="ion-no-padding ion-no-margin">
+            <ion-item>
+              <ion-input [(ngModel)]="itemInput" placeholder="Add a new thing to do"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="2" class="ion-no-padding;">
+            <ion-button expand="full" (click)="addItem()" color="ligth" >ADD
+            </ion-button>
+          </ion-col>
+        </ion-row>  
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

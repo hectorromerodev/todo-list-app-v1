@@ -3,6 +3,8 @@ import { Task } from '../interfaces/task';
 import { AlertController, ModalController, IonList } from '@ionic/angular';
 import { TaskModalPage } from '../task/task-modal/task-modal.page';
 import { StorageAPIWrapperService } from '../services/storage-api-wrapper.service';
+import { TaskListPageModule } from '../task/task-list/task-list.module';
+import { TaskListPage } from '../task/task-list/task-list.page';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -89,7 +91,7 @@ export class HomePage implements OnInit {
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: TaskModalPage,
-      animated: true
+      animated: true,
     });
     return await modal.present();
   }
