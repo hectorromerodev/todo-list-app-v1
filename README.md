@@ -23,16 +23,16 @@
 1. `ionic start` todo-list-app-v1 `--type=angular`
 2. `ng g service` services/task
 3. `ng g interface` interfaces/task
-4. Import `import { HttpClientModule } from '@angular/common/http';` in appModule imports.
-
-
-ionic capacitor add android
-ionic capacitor copy android
-ionic capacitor run android -l
-
 4. `ng g page` task
 6. `ng g page` task/task-list
 7. `ng g page` task/task-modal
 8. `npm i @ionic/storage capacitor-data-storage-sqlite`
 9. `ionic g service` services/storage
-5. Import `import { HttpClientModule } from '@angular/common/http';` in appModule imports.
+10. Import `import { HttpClientModule } from '@angular/common/http';` in appModule imports.
+11. `ionic capacitor add android`
+12. `ionic capacitor copy android`
+13. `ionic capacitor run android -l`
+
+#### Case of android studio error
+1. If does not install the app on your device
+  try adb uninstall io.ionic.starter, clean, rebuil, sync then run again
