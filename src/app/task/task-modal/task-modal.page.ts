@@ -15,7 +15,7 @@ export class TaskModalPage implements OnInit {
   @Output() save: EventEmitter<Task> = new EventEmitter();
 
   @Input() title: string;
-  @Input() relevance = 'least';
+  @Input() priority = 'important';
   @Input() itemArray: TaskList[] = [];
 
   @Input() item: string = null;
@@ -45,7 +45,7 @@ export class TaskModalPage implements OnInit {
       this.newTask = {
         id,
         title: this.title,
-        priority: this.relevance,
+        priority: this.priority,
         progress: 0,
         taskItems: this.itemArray
       };
@@ -54,13 +54,11 @@ export class TaskModalPage implements OnInit {
       this.modalCtrl.dismiss();
       // Here i need to save the information 🚧👷‍♂️
     });
-
-    console.log('saved');
   }
 
   changeColor() {
-    // Change color items depending of the relevance
-    switch (this.relevance) {
+    // Change color items depending of the priority
+    switch (this.priority) {
       case 'important':
         this.itemColor = 'danger';
         break;

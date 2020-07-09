@@ -18,11 +18,11 @@
     <ion-input [(ngModel)]="title"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating ">Priority</ion-label>
-    <ion-select interface="popover" #select (ionChange)="relevance = select.value; changeColor()">
+    <ion-label position="start">Priority</ion-label>
+    <ion-select interface="popover" #select (ionChange)="priority = select.value; changeColor()" value="important">
       <ion-select-option value="important" >Important</ion-select-option>
       <ion-select-option value="general">General</ion-select-option>
-      <ion-select-option value="least">Least</ion-select-option>
+      <ion-select-option value="least" >Least</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-list *ngIf="itemArray.length > 0 " lines="inset">

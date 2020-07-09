@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../interfaces/task';
-import { TaskService } from '../services/task.service';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, IonList } from '@ionic/angular';
 import { TaskModalPage } from '../task/task-modal/task-modal.page';
 import { StorageAPIWrapperService } from '../services/storage-api-wrapper.service';
-import { BehaviorSubject, Observable, pipe, combineLatest, of, concat, Subject } from 'rxjs';
-import { startWith, scan, map } from 'rxjs/Operators';
-import { flatten } from '@angular/compiler';
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -32,7 +27,6 @@ export class HomePage implements OnInit {
         this.getTasks();
       });
     this.getTasks();
-
   }
 
   async getTasks() {
@@ -51,6 +45,7 @@ export class HomePage implements OnInit {
             1 : 'important' === a.priority ?
               -1 : 'general' === b.priority ? // Then If general order before
                 1 : -1)); // Then the least values
+      // Verify if exist some items by priority and flag it to show view
       for (const item of this.allTask) {
         switch (item.priority) {
           case 'important':
@@ -94,7 +89,7 @@ export class HomePage implements OnInit {
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: TaskModalPage,
-      keyboardClose: true,
+      animated: true
     });
     return await modal.present();
   }

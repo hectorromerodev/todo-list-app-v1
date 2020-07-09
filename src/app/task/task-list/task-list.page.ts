@@ -21,16 +21,13 @@ export class TaskListPage implements OnInit, ViewDidEnter {
   constructor(
     private storage: StorageAPIWrapperService,
     private toastCtrl: ToastController
-  ) {
-  }
-  async ionViewDidEnter() {
-    console.log('did enter')
-    this.id = location.href.split('/')[5];
+  ) { }
 
+  async ionViewDidEnter() {
+    this.id = location.href.split('/')[5];
     await this.getTask();
     this.changeColor();
     this.taskList = this.task.taskItems;
-
   }
 
   async ngOnInit() {
@@ -68,7 +65,6 @@ export class TaskListPage implements OnInit, ViewDidEnter {
     if (this.itemInput !== null) {
       await this.task.taskItems.push(todo); // Push new items
       this.task.progress = await this.checkProgress(); // Change progress value
-
       await this.storage.setItem(this.id.toString(), JSON.stringify(this.task));
       this.itemInput = null; // Clean the  task add input
     }
@@ -108,13 +104,11 @@ export class TaskListPage implements OnInit, ViewDidEnter {
   }
   async checkItem(index: number, checkVal: any) {
     if (index >= 0 && (checkVal || !checkVal)) {
-      console.log(index, checkVal)
       // Assign check value
       this.task.taskItems[index].completed = !checkVal;
       this.task.progress = await this.checkProgress(); // Update the current progress
     }
     await this.storage.setItem(this.id.toString(), JSON.stringify(this.task));
-
   }
 
   async checkProgress() {
@@ -136,5 +130,4 @@ export class TaskListPage implements OnInit, ViewDidEnter {
     });
     await toast.present();
   }
-
 }

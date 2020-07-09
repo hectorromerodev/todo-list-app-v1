@@ -7,8 +7,8 @@ import { Task } from '../interfaces/task';
   providedIn: 'root'
 })
 export class TaskService {
-  readonly api = 'https://jsonplaceholder.typicode.com';
-  readonly endpoint = 'todos';
+  readonly api = '';
+  readonly endpoint = '';
   constructor(
     private http: HttpClient
   ) { }
